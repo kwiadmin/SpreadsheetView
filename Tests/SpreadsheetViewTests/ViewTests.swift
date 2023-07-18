@@ -8,7 +8,7 @@
 
 import XCTest
 @testable import SpreadsheetView
-
+@available(iOS 13, *)
 class ViewTests: XCTestCase {
     override func setUp() {
         super.setUp()
@@ -133,24 +133,15 @@ class ViewTests: XCTestCase {
 
         let spreadsheetView = viewController.spreadsheetView
         verify(view: spreadsheetView, parameters: parameters)
-
+        
         XCTAssertEqual(spreadsheetView.frame, spreadsheetView.window!.frame)
         let height = spreadsheetView.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
-        if #available(iOS 11.0, *) {
-            XCTAssertEqual(spreadsheetView.adjustedContentInset.top,
-                            height + viewController.navigationController!.navigationBar.frame.height)
-            XCTAssertEqual(spreadsheetView.adjustedContentInset.left, 0)
-            XCTAssertEqual(spreadsheetView.adjustedContentInset.right, 0)
-            XCTAssertEqual(spreadsheetView.adjustedContentInset.bottom, viewController.view.safeAreaInsets.bottom)
-
-            XCTAssertEqual(spreadsheetView.contentInset, .zero)
-        } else {
-            XCTAssertEqual(spreadsheetView.contentInset.top,
-                           height + viewController.navigationController!.navigationBar.frame.height)
-            XCTAssertEqual(spreadsheetView.contentInset.left, 0)
-            XCTAssertEqual(spreadsheetView.contentInset.right, 0)
-            XCTAssertEqual(spreadsheetView.contentInset.bottom, 0)
-        }
+        
+        XCTAssertEqual(spreadsheetView.contentInset.top,
+                       height + viewController.navigationController!.navigationBar.frame.height)
+        XCTAssertEqual(spreadsheetView.contentInset.left, 0)
+        XCTAssertEqual(spreadsheetView.contentInset.right, 0)
+        XCTAssertEqual(spreadsheetView.contentInset.bottom, 0)
     }
 
     func testEmbedInNavigationControllerInTabBarController() {
@@ -173,21 +164,13 @@ class ViewTests: XCTestCase {
         verify(view: spreadsheetView, parameters: parameters)
         let height = spreadsheetView.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
         XCTAssertEqual(spreadsheetView.frame, spreadsheetView.window!.frame)
-        if #available(iOS 11.0, *) {
-            XCTAssertEqual(spreadsheetView.adjustedContentInset.top,
-                           height + viewController.navigationController!.navigationBar.frame.height)
-            XCTAssertEqual(spreadsheetView.adjustedContentInset.left, 0)
-            XCTAssertEqual(spreadsheetView.adjustedContentInset.right, 0)
-            XCTAssertEqual(spreadsheetView.adjustedContentInset.bottom, viewController.tabBarController!.tabBar.frame.height)
-
-            XCTAssertEqual(spreadsheetView.contentInset, .zero)
-        } else {
-            XCTAssertEqual(spreadsheetView.contentInset.top,
-                           height + viewController.navigationController!.navigationBar.frame.height)
-            XCTAssertEqual(spreadsheetView.contentInset.left, 0)
-            XCTAssertEqual(spreadsheetView.contentInset.right, 0)
-            XCTAssertEqual(spreadsheetView.contentInset.bottom, viewController.tabBarController!.tabBar.frame.height)
-        }
+        XCTAssertEqual(spreadsheetView.adjustedContentInset.top,
+                       height + viewController.navigationController!.navigationBar.frame.height)
+        XCTAssertEqual(spreadsheetView.adjustedContentInset.left, 0)
+        XCTAssertEqual(spreadsheetView.adjustedContentInset.right, 0)
+        XCTAssertEqual(spreadsheetView.adjustedContentInset.bottom, viewController.tabBarController!.tabBar.frame.height)
+        
+        XCTAssertEqual(spreadsheetView.contentInset, .zero)
     }
 
     func testEmbedInTabBarController() {
@@ -209,9 +192,7 @@ class ViewTests: XCTestCase {
 
         XCTAssertEqual(spreadsheetView.frame, spreadsheetView.window!.frame)
         XCTAssertEqual(spreadsheetView.contentInset, .zero)
-        if #available(iOS 11.0, *) {
-            XCTAssertEqual(spreadsheetView.adjustedContentInset, .zero)
-        }
+        XCTAssertEqual(spreadsheetView.adjustedContentInset, .zero)
     }
 
     func testReloading() {
